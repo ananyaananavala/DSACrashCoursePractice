@@ -1,0 +1,73 @@
+import sys
+
+# --- Indexing into two lists at once ---
+# learned: you can use two separate index variables (i, j) to grab
+# different elements from the same list
+i = 0
+j = 1
+nums = [5, 7, 9]
+print(f"i={i}, j={j}, nums[i]={nums[i]}, nums[j]={nums[j]}, sum={nums[i]+nums[j]}")
+
+
+# --- List growth and memory ---
+# learned: Python lists over-allocate memory as they grow, so getsizeof()
+# doesn't grow by a fixed amount every append (amortized growth) --
+# the size jumps happen in chunks, not one byte at a time
+lst = []
+for i in range(20):
+    lst.append(i)
+    print(len(lst), sys.getsizeof(lst))
+
+
+# --- Create a list of your last 5 CS 310 quiz scores and print the average ---
+quizScores = [8, 9, 10, 7, 1, 9, 20]
+quizScores.append(10)
+print(quizScores[len(quizScores) - 1])
+print(quizScores)
+
+# learned: indexing with i lets you actually MUTATE the list in place
+for i in range(len(quizScores)):
+    if quizScores[i] == 10:
+        quizScores[i] = 100
+        break
+
+print(quizScores)
+
+# learned: "score" here is just a copy of each value, NOT a reference
+# into the list -- reassigning score does NOT change quizScores
+for score in quizScores:
+    if score == 10:
+        score = 500
+    print(score)
+
+print(quizScores)
+
+average = sum(quizScores) / len(quizScores)
+print(f"average score of quizes = {average}")
+
+
+# --- Cart pricing practice: accumulator pattern ---
+
+cart_prices_1 = [10, 5, 30, 4]
+total_bill = 0
+
+# learned: this is the "accumulator pattern" -- start a variable at 0,
+# then add to it each loop iteration. Don't need index/range() here
+# since we only care about the values, not their positions (clean and readable)
+total = 0
+for price in cart_prices_1:
+    total = total + price
+print(f"total {total}")
+
+# learned: same accumulator pattern, but using += shorthand
+# (total_bill += price is the same as total_bill = total_bill + price)
+cart_prices_2 = [20, 10, 40, 50]
+for price in cart_prices_2:
+    total_bill += price
+
+print(f"actual sum: {total_bill}")
+
+# learned: variables can just be reassigned/overwritten anytime --
+# this wipes out the sum we just calculated above
+total_bill = 100
+print(f"after updating to 100: {total_bill}")
